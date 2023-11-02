@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import json
 
 app = Flask(__name__)
 
@@ -23,7 +24,10 @@ def calculation_path():
     number = request.args.get('number', 10)
     number_real = int(number)
     number_analyzed = number_real * number_real
-    return f'Your analyzed number: {number_analyzed}'
+    output = json.dumps({
+        "number analyzed " : number_analyzed
+    })
+    return output
 
 @app.route('/hello', methods=['POST'])
 def hello_post():
