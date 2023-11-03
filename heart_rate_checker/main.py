@@ -14,12 +14,12 @@ def hello_http(request):
     request_args = request.args
 
     if request_args and "heart rate" in request_args:
-        heartrate_value1 = request_args["heart rate"]
+        heartrate_value1 = request_args["heart rate 1"]
     else:
         heartrate_value1 = 80
 
     if request_args and "heart rate" in request_args:
-        heartrate_value2 = request_args["heart rate"]
+        heartrate_value2 = request_args["heart rate 2"]
     else:
         heartrate_value2 = 80
 
@@ -39,4 +39,4 @@ def hello_http(request):
         }
     )
 
-    return f"Heart value 1 entered: {escape(heartrate_value1)}!"
+    return output
