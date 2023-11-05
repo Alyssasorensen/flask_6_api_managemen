@@ -4,26 +4,30 @@ from flasgger import Swagger
 app = Flask(__name__)
 Swagger(app)
 
-@app.route('/hello', methods=['GET'])
-def hello_get():
+@app.route('/')
+def home():
+    return f'Welcome to my Flask Endpoint'
+
+@app.route('/calculation', methods=['GET'])
+def calculation_get():
     """
     This endpoint returns a greeting message.
     ---
     parameters:
-      - name: name
+      - name: heart_rate
         in: query
         type: string
         required: false
-        default: World
+        default: normal
     responses:
       200:
         description: A greeting message
     """
-    name = request.args.get('name', 'World')
-    return f'Hello {name}!'
+    heart_rate = request.args.get('heart_rate', 'normal')
+    return f'How are you feeling {heart_rate}?'
 
-@app.route('/hello', methods=['POST'])
-def hello_post():
+@app.route('/calculation', methods=['POST'])
+def calculation_post():
     """
     This endpoint returns a greeting message based on the name provided in the JSON body.
     ---
@@ -38,7 +42,7 @@ def hello_post():
           properties:
             name:
               type: string
-              default: World
+              default: normal
     responses:
       200:
         description: A greeting message
@@ -49,8 +53,8 @@ def hello_post():
     if data is None:
         return jsonify({'error': 'Invalid JSON'}), 400
     
-    name = data.get('name', 'World')
-    return jsonify({'message': f'Hello {name}!'})
+    heart_rate = data.get('heart_rate', 'normal')
+    return jsonify({'message': f'How are you feeling {heart_rate}?'})
 
 if __name__ == '__main__':
     app.run(debug=True)
