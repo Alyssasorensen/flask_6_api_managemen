@@ -309,4 +309,49 @@ Access the Swagger documentation in your browser, and you can test your API endp
 
 ## **Challenges Encountered, Solutions Tried, and Conclusions**
 
-I encountered a few challenges trying to deploy the 
+I encountered a few challenges trying to do the Azure API deployment. I tried different steps, but was not able to successfully deploy it.  
+
+I was able to do the following steps with no issues. 
+
+1. Installing the Azure CLI:
+
+```
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+```
+
+2. Then I logged in:
+
+```
+az login --use-device-code
+```
+
+3. Then I ran the following code:
+
+```
+sudo apt-get install azure-functions-core-tools-4
+```
+
+Each of the steps worked properly. However, when trying to view the function_app.py, it would not show the URL, so then I was not able to view the API.
+
+However, I still proceeded with each of the steps to see if it would work. 
+
+4. I created a new resource group:
+
+```
+az group create --name AzureFunctionsQuickstart-rg --location eastus
+```
+
+5. Then I created a new storage account:
+
+```
+az storage account create --name alyssaflaskazure504 --location eastus --resource-group AzureFunctionsQuickstart-rg --sku Standard_LRS
+```
+
+6. Then I tried to create the functionapp, and this is where I kept receiving an error. 
+
+```
+az functionapp create --resource-group AzureFunctionsQuickstart-rg --consumption-plan-location eastus --runtime python --runtime-version 3.9 --functions-version 4 --name Alyssa150 --os-type linux --storage-account alyssaflaskazure504
+```
+
+When running this in the terminal, I kept receiving this error message:
+
