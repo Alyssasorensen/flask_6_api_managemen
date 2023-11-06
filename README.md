@@ -355,3 +355,8 @@ az functionapp create --resource-group AzureFunctionsQuickstart-rg --consumption
 
 When running this in the terminal, I kept receiving this error message:
 
+"usage error: You must specify one of these parameter --plan NAME_OR_ID | --consumption-plan-location LOCATION"
+
+I was getting confused because in the code I included "--consumption-plan-location LOCATION."
+
+I also included a code with both the NAME and LOCATION, as well as one with just the NAME. After doing these codes, I kept receiving the same error message. 
