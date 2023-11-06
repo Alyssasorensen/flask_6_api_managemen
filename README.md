@@ -164,6 +164,149 @@ FastAPI: FastAPI automatically parses request data based on type annotations and
 
 ## **Documentation of APIs - Focusing on the Standard OpenAPI Format**
 
+1. Install Azure Functions Core Tools:
+
+First, ensure you have the Azure Functions Core Tools installed on your local development environment. You can follow the installation instructions for your platform here: Azure Functions Core Tools installation.
+
+2. Create a New Azure Functions Project:
+
+Open your terminal or command prompt and navigate to the directory where your Flask app is located.
+
+Run the following command to create a new Azure Functions project:
+
+```
+func init YourFunctionApp --python
+```
+
+Replace "YourFunctionApp" with your preferred project name.
+
+3. Add a New HTTP Trigger Function:
+
+Run the following command to create a new HTTP-triggered function:
+
+```
+func new --name YourHttpFunction --template "HTTPTrigger"
+```
+
+Replace "YourHttpFunction" with a name for your HTTP-triggered function.
+
+4. Update the Function Code:
+
+Open the generated YourHttpFunction/__init__.py file and replace the function code with your Flask app code. You can modify it to use the azure.functions package.
+
+Here's an example of how you can adapt your Flask app code to work with Azure Functions:
+
+```
+import azure.functions as func
+
+def main(req: func.HttpRequest) -> func.HttpResponse:
+    name = req.params.get('name', 'World')
+    return func.HttpResponse(f'Hello {name}!')
+```
+
+5. Deploy the Function App:
+
+Run the following command to deploy your Azure Function App to Azure:
+
+```
+func azure functionapp publish YourFunctionAppName
+```
+
+Replace "YourFunctionAppName" with your desired Azure Function App name.
+
+6. Access Your Function:
+
+After successful deployment, you can access your serverless function using the provided URL. It will be in the format: https://YourFunctionAppName.azurewebsites.net/api/YourHttpFunction.
+
+Replace "YourFunctionAppName" with your actual function app name and "YourHttpFunction" with the name of your HTTP-triggered function.
+
 ## **Steps and Observations on Azure API Management Integration**
 
+To add Swagger/OpenAPI documentation to your Flask app using the "flasgger" package, you can follow these instructions:
+
+1. Install Flask and Flasgger:
+
+First, ensure you have Flask and the flasgger package installed. You can install them using pip:
+
+```
+pip install Flask
+pip install flasgger
+```
+
+2. Modify Your Flask App:
+
+Update your Flask app to include the flasgger extension for generating Swagger documentation. Here's how you can modify your Flask app:
+
+```
+from flask import Flask, request, jsonify
+from flasgger import Swagger
+
+app = Flask(__name__)
+Swagger(app)
+
+@app.route('/')
+def home():
+    """
+    Home endpoint.
+    This is the home endpoint of the API.
+    ---
+    responses:
+      200:
+        description: A welcome message
+    """
+    return 'Welcome to my Flask API'
+
+@app.route('/calculation', methods=['GET'])
+def calculation_get():
+    """
+    Calculate something.
+    This endpoint performs a calculation based on input data.
+    ---
+    parameters:
+      - name: input_data
+        in: query
+        type: string
+        required: true
+        default: 0
+    responses:
+      200:
+        description: The result of the calculation
+    """
+    input_data = request.args.get('input_data', 0)
+    # Perform your calculation here
+    result = input_data * 2
+    return jsonify({'result': result})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+In the code above, we've added the Swagger(app) line to initialize flasgger. We've also added docstring-style comments with descriptions for each endpoint and the expected request and response formats.
+
+3. Generate Swagger Documentation:
+
+When you run your Flask app, you can access the Swagger documentation at /apidocs by default. For example, if your Flask app is running locally, you can access the documentation at:
+
+```
+http://127.0.0.1:5000/apidocs
+```
+
+The Swagger documentation provides an interactive UI for exploring and testing your API.
+
+4. Customize the Documentation:
+
+You can further customize the Swagger documentation by adding more details to the docstring comments, including request parameters, example values, and more. Refer to the 'flasgger' documentation and Swagger specification for advanced customization options.
+
+5. Run and Test Your App:
+
+Start your Flask app:
+
+```
+python app.py
+```
+
+Access the Swagger documentation in your browser, and you can test your API endpoints interactively. The documentation will also include the details you provided in the docstring comments. 
+
 ## **Challenges Encountered, Solutions Tried, and Conclusions**
+
+I encountered a few challenges trying to deploy the 
